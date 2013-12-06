@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<title>RIP</title>
+		<meta charset="UTF-8">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<script>
+			function anazitisi(){
+				actor = document.getElementById("actor").value;
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.open("GET","https://api.themoviedb.org/3/search/person?api_key=d44e0ac5ceac0c812a5ffa8c7cc72ef0&query="+actor,true);
+
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState==4 && xmlhttp.status==200)
+					{
+						console.log(xmlhttp.responseText);
+					}
+				}
+				xmlhttp.send();
+			}
+		</script>
+	</head>
+<body>
+	<h2>Μάθε αν ο αγαπημένος σου ηθοποιός είναι ακόμα μαζί μας.</h2> 
+
+	<div class="input-group input-group-lg">
+		<span class="input-group-addon">Ηθοποιός</span>
+		<input id='actor' type="text" class="form-control" placeholder="Όνομα">
+	</div>
+
+	<button onClick="javascript:anazitisi();" type="button" data-loading-text="Αναζήτηση..." class="btn btn-primary">
+		Αναζήτηση
+	</button>
+
+	<ul class="list-group">
+		<li class="list-group-item">
+			<span class="badge glyphicon glyphicon-ok-sign">&nbsp;</span>
+			Cras justo odio
+		</li>
+	</ul>
+
+</body>
+</html>
