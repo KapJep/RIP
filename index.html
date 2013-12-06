@@ -5,6 +5,7 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="js/bootstrap.js"></script>
+		<script src="js/picturefill.js"></script>
 		<script>
 			function anazitisi(){
 				actor = document.getElementById("actor").value;
@@ -23,27 +24,57 @@
 		</script>
 	</head>
 <body>
-	<h3>Μάθε αν ο αγαπημένος σου ηθοποιός είναι ακόμα μαζί μας.</h3> 
 
-	<div class="input-group input-group-lg">
-		<input id='actor' type="text" class="form-control" placeholder="Όνομα">
-		<span class="input-group-btn">
-			<button onClick="javascript:anazitisi();" type="button" data-loading-text="Αναζήτηση..." class="btn btn-success">
-				Αναζήτηση
-			</button>
-		</span>
-	</div>
+    <div class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="javascript:location.reload();">R.I.P (pre-alpha)</a>
+        </div>
+      </div>
+    </div>
 
-	<ul class="list-group">
-		<li class="list-group-item">
-			<span class="badge glyphicon glyphicon-ok-sign">&nbsp;</span>
-			Cras justo odio
-		</li>
-		<li class="list-group-item">
-			<span class="badge">R.I.P</span>
-			Paul Walker
-		</li>
-	</ul>
+    <div class="container">
+
+	    <div align="center">
+			<span data-picture align="center">
+				<span data-src="images/small.png"></span>
+				<span data-src="images/medium.png" data-media="(min-width: 640px)"></span>
+				<span data-src="images/big.png" data-media="(min-width: 1024px)"></span>
+				<span data-src="images/verybig.png" data-media="(min-width: 1280px)"></span>
+				<span data-src="images/large.png" data-media="(min-width: 1920px)"></span>
+				<span data-src="images/extralarge.png" data-media="(min-width: 3840px)"></span>
+
+				<!-- Fallback content for non-JS browsers. Same img src as the initial, unqualified source element. -->
+				<noscript>
+					<img src="images/small.png">
+				</noscript>
+			</span>
+
+			<h3>Μάθε αν ο αγαπημένος σου ηθοποιός είναι ακόμα μαζί μας.</h3> 
+		</div>
+
+
+		<div class="input-group input-group-lg">
+			<input id='actor' type="text" class="form-control" placeholder="Όνομα">
+			<span class="input-group-btn">
+				<button onClick="javascript:anazitisi();" type="button" data-loading-text="Αναζήτηση..." class="btn btn-default">
+					Αναζήτηση
+				</button>
+			</span>
+		</div>
+
+		<ul class="list-group">
+			<li class="list-group-item">
+				<span class="badge glyphicon glyphicon-heart">88</span>
+				Cras justo odio
+			</li>
+			<li class="list-group-item">
+				<span class="badge">R.I.P.</span>
+				Paul Walker
+			</li>
+		</ul>
+
+	</div> <!-- container -->
 
 </body>
 </html>
