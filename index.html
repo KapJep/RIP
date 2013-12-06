@@ -5,6 +5,7 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="js/bootstrap.js"></script>
+		<script src="js/picturefill.js"></script>
 		<script>
 			function anazitisi(){
 				actor = document.getElementById("actor").value;
@@ -23,6 +24,19 @@
 		</script>
 	</head>
 <body>
+
+	<span data-picture>
+		<span data-src="images/small.png"></span>
+		<span data-src="images/medium.png" data-media="(min-width: 640px)"></span>
+		<span data-src="images/large.png" data-media="(min-width: 12800px)"></span>
+		<span data-src="images/extralarge.png" data-media="(min-width: 19200px)"></span>
+
+		<!-- Fallback content for non-JS browsers. Same img src as the initial, unqualified source element. -->
+		<noscript>
+			<img src="images/small.png">
+		</noscript>
+	</span>
+
 	<h3>Μάθε αν ο αγαπημένος σου ηθοποιός είναι ακόμα μαζί μας.</h3> 
 
 	<div class="input-group input-group-lg">
