@@ -39,14 +39,17 @@
 					$(new_list_item).appendTo(".list-group").append(new_span,actor.name);
 				}
 				$(".list-group").slideDown("slow");
+				document.getElementById("btnS").disabled = false;
+				document.getElementById("btnS").innerHTML = "Αναζήτηση"
 			}
 		}
 	}
 	xmlhttp.send();
+	//enable search button again, wait for 5 sec and change the text
+	setTimeout(function(){document.getElementById("btnS").disabled = false;},5000);
+	setTimeout(function(){document.getElementById("btnS").innerHTML = "Αναζήτηση" ;},5000);
 
-	//enable search button again, wait for 1.5 sec and change the text
-	setTimeout(function(){document.getElementById("btnS").disabled = false;},1500);
-	setTimeout(function(){document.getElementById("btnS").innerHTML = "Αναζήτηση" ;},1500);
+
 }
 
 
