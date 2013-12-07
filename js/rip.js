@@ -51,10 +51,11 @@
 	}
 	xmlhttp.send();
 	//enable search button again, wait for 5 sec and change the text
-	setTimeout(function(){document.getElementById("btnS").disabled = false;},5000);
-	setTimeout(function(){document.getElementById("btnS").innerHTML = "Αναζήτηση" ;},5000);
+	setTimeout(function(){
+		document.getElementById("btnS").disabled = false;
+		document.getElementById("btnS").innerHTML = "Αναζήτηση";
+	},10000);
 }
-
 
 function get_actor (id) {
 	var xmlhttp = new XMLHttpRequest();
