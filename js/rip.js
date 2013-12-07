@@ -35,8 +35,9 @@
 					}
 
 					var new_list_item = $("<li class='list-group-item'></li>");
+					var new_actor_name_link = $("<a target=_blank href='http://www.themoviedb.org/person/"+id+"'>"+actor.name+"</a>");
 					
-					$(new_list_item).appendTo(".list-group").append(new_span,actor.name);
+					$(new_list_item).appendTo(".list-group").append(new_span,new_actor_name_link);
 				}
 				$(".list-group").slideDown("slow");
 				document.getElementById("btnS").disabled = false;
