@@ -1,4 +1,7 @@
-function anazitisi(){
+﻿function anazitisi(){
+	//disable search button and change the text
+	document.getElementById("btnS").disabled = true;
+	document.getElementById("btnS").innerHTML = "Αναζήτηση..." ;
 
 	$(".list-group").hide().empty();
 	actor = document.getElementById("actor").value;
@@ -40,7 +43,12 @@ function anazitisi(){
 		}
 	}
 	xmlhttp.send();
+
+	//enable search button again, wait for 1.5 sec and change the text
+	setTimeout(function(){document.getElementById("btnS").disabled = false;},1500);
+	setTimeout(function(){document.getElementById("btnS").innerHTML = "Αναζήτηση" ;},1500);
 }
+
 
 function get_actor (id) {
 	var xmlhttp = new XMLHttpRequest();
