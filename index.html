@@ -6,22 +6,7 @@
 		<script src="js/jquery-2.0.3.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/picturefill.js"></script>
-		<script>
-			function anazitisi(){
-				actor = document.getElementById("actor").value;
-				var xmlhttp = new XMLHttpRequest();
-				xmlhttp.open("GET","https://api.themoviedb.org/3/search/person?api_key=d44e0ac5ceac0c812a5ffa8c7cc72ef0&query="+actor,true);
-
-				xmlhttp.onreadystatechange=function()
-				{
-					if (xmlhttp.readyState==4 && xmlhttp.status==200)
-					{
-						console.log(xmlhttp.responseText);
-					}
-				}
-				xmlhttp.send();
-			}
-		</script>
+		<script src="js/rip.js"></script>
 	</head>
 <body>
 
@@ -64,14 +49,7 @@
 		</div>
 
 		<ul class="list-group">
-			<li class="list-group-item">
-				<span class="badge glyphicon glyphicon-heart">88</span>
-				Cras justo odio
-			</li>
-			<li class="list-group-item">
-				<span class="badge">R.I.P.</span>
-				Paul Walker
-			</li>
+			<!-- rip magic -->
 		</ul>
 
 	</div> <!-- container -->
