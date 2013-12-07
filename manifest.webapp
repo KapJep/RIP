@@ -1,0 +1,21 @@
+{
+  "version": "0.1",
+  "name": "R.I.P. Actors",
+  "description": "Find out which Actors have left this world!",
+  "launch_path": "/index.html",
+  "icons": {
+    "16": "/icons/firefox-os/icon-16.png",
+    "48": "/icons/firefox-os/icon-48.png",
+    "128": "/icons/firefox-os/icon-128.png"
+  },
+  "developer": {
+    "name": "KapJep",
+    "url": "https://github.com/KapJep"
+  },
+  "locales": {
+    "el": {
+      "description": "Μάθε αν ο αγαπημένος σου ηθοποιός είναι ακόμα μαζί μας."
+    }
+  },
+  "default_locale": "en"
+}
