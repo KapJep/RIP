@@ -1,4 +1,4 @@
-![](//raw.github.com/KapJep/RIP/master/icon.png) R.I.P. Actors 0.1
+![](https://raw.github.com/KapJep/RIP/master/icon.png) R.I.P. Actors 0.1
 ===
 Find out which Actors have left this world!
 
