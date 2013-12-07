@@ -48,8 +48,6 @@
 	//enable search button again, wait for 5 sec and change the text
 	setTimeout(function(){document.getElementById("btnS").disabled = false;},5000);
 	setTimeout(function(){document.getElementById("btnS").innerHTML = "Αναζήτηση" ;},5000);
-
-
 }
 
 
@@ -62,3 +60,13 @@ function get_actor (id) {
 		return r;
 	}
 }
+
+$("#actor").keypress(function (e) {
+	if (e.keyCode == 13) {
+		anazitisi();
+	}
+})
+
+$("#btnS").click(function(){
+	anazitisi();
+})
