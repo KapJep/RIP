@@ -3,8 +3,13 @@
 	document.getElementById("btnS").disabled = true;
 	document.getElementById("btnS").innerHTML = "Αναζήτηση..." ;
 
+	//empty the list
 	$(".list-group").hide().empty();
-	actor = document.getElementById("actor").value;
+
+	//get the search query and empty the field
+	actor = $("#actor").val();
+	$("#actor").val("");
+
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.open("GET","https://api.themoviedb.org/3/search/person?api_key=d44e0ac5ceac0c812a5ffa8c7cc72ef0&query="+actor,true);
 
