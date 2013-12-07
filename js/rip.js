@@ -40,6 +40,7 @@
 				}
 				$(".list-group").slideDown("slow");
 				document.getElementById("btnS").disabled = false;
+				document.getElementById("btnS").innerHTML = "Αναζήτηση"
 			}
 		}
 	}
