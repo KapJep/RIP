@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
+<widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/3.1.0"
+        id = "com.kapjep.rip-actors"
+        version = "0.1">
+
+    <name>RIP Actors</name>
+
+    <description>
+        Find out which Actors have left this world!
+    </description>
+
+    <author href="http://phonegap.com" email="support@phonegap.com">
+        KapJep Team
+    </author>
+
+    <preference name="permissions" value="none"/>
+
+</widget>
