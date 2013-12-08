@@ -14,7 +14,7 @@
 function anazitisi(){
 	//disable search button and change the text
 	document.getElementById("btnS").disabled = true;
-	document.getElementById("btnS").innerHTML = "Αναζήτηση..." ;
+	document.getElementById("btnS").innerHTML = t("Search...") ;
 
 	$(".list-group").hide().empty();
 	actor = document.getElementById("actor").value;
@@ -54,14 +54,14 @@ function anazitisi(){
 				}
 				$(".list-group").slideDown("slow");
 				document.getElementById("btnS").disabled = false;
-				document.getElementById("btnS").innerHTML = "Αναζήτηση"
+				document.getElementById("btnS").innerHTML = t("Search");
 			}
 		}
 	}
 	xmlhttp.send();
 	//enable search button again, wait for 5 sec and change the text
 	setTimeout(function(){document.getElementById("btnS").disabled = false;},5000);
-	setTimeout(function(){document.getElementById("btnS").innerHTML = "Αναζήτηση" ;},5000);
+	setTimeout(function(){document.getElementById("btnS").innerHTML = t("Search") ;},5000);
 
 
 }
