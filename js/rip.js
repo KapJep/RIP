@@ -1,10 +1,28 @@
-﻿function anazitisi(){
+﻿$( function(){
+	$( ".translatable" ).each( function(){
+		var str = $( this ).data( "transl" );
+		var translated_str = t(str);
+		if (this.id=="actor"){
+			$(this).attr("placeholder",translated_str);
+		}
+		else {
+			$(this).text(translated_str);
+		}
+	})
+})
+
+function anazitisi(){
 	//disable search button and change the text
 	document.getElementById("btnS").disabled = true;
-	document.getElementById("btnS").innerHTML = "Αναζήτηση..." ;
+	document.getElementById("btnS").innerHTML = t("Search...") ;
 
+	//empty the list
 	$(".list-group").hide().empty();
-	actor = document.getElementById("actor").value;
+
+	//get the search query and empty the field
+	actor = $("#actor").val();
+	$("#actor").val("");
+
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.open("GET","https://api.themoviedb.org/3/search/person?api_key=d44e0ac5ceac0c812a5ffa8c7cc72ef0&query="+actor,true);
 
@@ -35,23 +53,23 @@
 					}
 
 					var new_list_item = $("<li class='list-group-item'></li>");
+					var new_actor_name_link = $("<a target=_blank href='http://www.themoviedb.org/person/"+id+"'>"+actor.name+"</a>");
 					
-					$(new_list_item).appendTo(".list-group").append(new_span,actor.name);
+					$(new_list_item).appendTo(".list-group").append(new_span,new_actor_name_link);
 				}
 				$(".list-group").slideDown("slow");
 				document.getElementById("btnS").disabled = false;
-				document.getElementById("btnS").innerHTML = "Αναζήτηση"
+				document.getElementById("btnS").innerHTML = t("Search");
 			}
 		}
 	}
 	xmlhttp.send();
-	//enable search button again, wait for 5 sec and change the text
-	setTimeout(function(){document.getElementById("btnS").disabled = false;},5000);
-	setTimeout(function(){document.getElementById("btnS").innerHTML = "Αναζήτηση" ;},5000);
-
-
+	//enable search button again, wait for 10 sec and change the text
+	setTimeout(function(){
+		document.getElementById("btnS").disabled = false;
+		document.getElementById("btnS").innerHTML = "Αναζήτηση";
+	},10000);
 }
-
 
 function get_actor (id) {
 	var xmlhttp = new XMLHttpRequest();
@@ -62,3 +80,13 @@ function get_actor (id) {
 		return r;
 	}
 }
+
+$("#actor").keypress(function (e) {
+	if (e.keyCode == 13) {
+		anazitisi();
+	}
+})
+
+$("#btnS").click(function(){
+	anazitisi();
+})

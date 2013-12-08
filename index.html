@@ -4,17 +4,16 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="google-site-verification" content="DmrgvR0eTRbBG6VGSmbEPcF6Qz55DRvWN7MtqjcwQWw" />
 		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<script src="js/jquery-2.0.3.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/picturefill.js"></script>
-		<script src="js/rip.js"></script>
+		<style>
+			body { padding-top: 70px; }
+		</style>
 	</head>
 <body>
 
-    <div class="navbar navbar-inverse navbar-static-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="javascript:location.reload();">R.I.P (pre-alpha)</a>
+          <a class="navbar-brand glyphicon glyphicon-refresh" href="javascript:location.reload();"> R.I.P Actors</a>
         </div>
       </div>
     </div>
@@ -36,15 +35,14 @@
 				</noscript>
 			</span>
 
-			<h3>Μάθε αν ο αγαπημένος σου ηθοποιός είναι ακόμα μαζί μας.</h3> 
+			<h3 id="heading" class="translatable" data-transl="Find out whether your favourite actor is still with us."></h3> 
 		</div>
 
 
 		<div class="input-group input-group-lg">
-			<input id='actor' type="text" class="form-control" placeholder="Όνομα">
+			<input id='actor' type="text" class="form-control translatable" placeholder="" data-transl="Name">
 			<span class="input-group-btn">
-				<button id="btnS" onClick="javascript:anazitisi();" type="button" class="btn btn-default">
-					Αναζήτηση
+				<button id="btnS" onClick="javascript:anazitisi();" type="button" class="btn btn-default translatable" data-transl="Search">
 				</button>
 			</span>
 		</div>
@@ -54,6 +52,12 @@
 		</ul>
 
 	</div> <!-- container -->
+
+	<script src="js/jquery-2.0.3.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/picturefill.js"></script>
+	<script src="js/rip_transl.js"></script>
+	<script src="js/rip.js"></script>
 
 </body>
 </html>
