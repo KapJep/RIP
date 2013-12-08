@@ -1,7 +1,7 @@
 function t(str){
 
 	var lang = navigator.language; 
-	lang.substring(2);
+	lang = lang.substring(0,2);
 
 	var translations = {
 		"el" : {
