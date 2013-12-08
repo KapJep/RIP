@@ -1,7 +1,20 @@
-﻿function anazitisi(){
+﻿$( function(){
+	$( ".translatable" ).each( function(){
+		var str = $( this ).data( "transl" );
+		var translated_str = t(str);
+		if (this.id=="actor"){
+			$(this).attr("placeholder",translated_str);
+		}
+		else {
+			$(this).text(translated_str);
+		}
+	})
+})
+
+function anazitisi(){
 	//disable search button and change the text
 	document.getElementById("btnS").disabled = true;
-	document.getElementById("btnS").innerHTML = "Αναζήτηση..." ;
+	document.getElementById("btnS").innerHTML = t("Search...") ;
 
 	//empty the list
 	$(".list-group").hide().empty();
@@ -46,12 +59,12 @@
 				}
 				$(".list-group").slideDown("slow");
 				document.getElementById("btnS").disabled = false;
-				document.getElementById("btnS").innerHTML = "Αναζήτηση"
+				document.getElementById("btnS").innerHTML = t("Search");
 			}
 		}
 	}
 	xmlhttp.send();
-	//enable search button again, wait for 5 sec and change the text
+	//enable search button again, wait for 10 sec and change the text
 	setTimeout(function(){
 		document.getElementById("btnS").disabled = false;
 		document.getElementById("btnS").innerHTML = "Αναζήτηση";
