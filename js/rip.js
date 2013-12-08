@@ -14,7 +14,7 @@
 function anazitisi(){
 	//disable search button and change the text
 	document.getElementById("btnS").disabled = true;
-	document.getElementById("btnS").innerHTML = t("Search...") ;
+	document.getElementById("btnS").innerHTML = t("Searching...") ;
 
 	//empty the list
 	$(".list-group").hide().empty();
