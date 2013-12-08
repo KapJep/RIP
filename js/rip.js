@@ -1,4 +1,17 @@
-﻿function anazitisi(){
+﻿$( function(){
+	$( ".translatable" ).each( function(){
+		var str = $( this ).data( "transl" );
+		var translated_str = t(str);
+		if (this.id=="actor"){
+			$(this).attr("placeholder",translated_str);
+		}
+		else {
+			$(this).text(translated_str);
+		}
+	})
+})
+
+function anazitisi(){
 	//disable search button and change the text
 	document.getElementById("btnS").disabled = true;
 	document.getElementById("btnS").innerHTML = "Αναζήτηση..." ;
