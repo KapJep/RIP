@@ -16,8 +16,13 @@ function anazitisi(){
 	document.getElementById("btnS").disabled = true;
 	document.getElementById("btnS").innerHTML = t("Search...") ;
 
+	//empty the list
 	$(".list-group").hide().empty();
-	actor = document.getElementById("actor").value;
+
+	//get the search query and empty the field
+	actor = $("#actor").val();
+	$("#actor").val("");
+
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.open("GET","https://api.themoviedb.org/3/search/person?api_key=d44e0ac5ceac0c812a5ffa8c7cc72ef0&query="+actor,true);
 
@@ -59,13 +64,12 @@ function anazitisi(){
 		}
 	}
 	xmlhttp.send();
-	//enable search button again, wait for 5 sec and change the text
-	setTimeout(function(){document.getElementById("btnS").disabled = false;},5000);
-	setTimeout(function(){document.getElementById("btnS").innerHTML = t("Search") ;},5000);
-
-
+	//enable search button again, wait for 10 sec and change the text
+	setTimeout(function(){
+		document.getElementById("btnS").disabled = false;
+		document.getElementById("btnS").innerHTML = "Αναζήτηση";
+	},10000);
 }
-
 
 function get_actor (id) {
 	var xmlhttp = new XMLHttpRequest();
@@ -76,3 +80,13 @@ function get_actor (id) {
 		return r;
 	}
 }
+
+$("#actor").keypress(function (e) {
+	if (e.keyCode == 13) {
+		anazitisi();
+	}
+})
+
+$("#btnS").click(function(){
+	anazitisi();
+})

@@ -6,6 +6,7 @@
   "icons": {
     "16": "/icon/firefox-os/icon-16.png",
     "48": "/icon/firefox-os/icon-48.png",
+    "60": "/icon/firefox-os/icon-60.png"
     "128": "/icon/firefox-os/icon-128.png"
   },
   "developer": {
