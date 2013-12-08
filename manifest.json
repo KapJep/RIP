@@ -1,0 +1,17 @@
+{
+  "name": "R.I.P. Actors",
+  "description": "Find out which Actors have left this world!",
+  "version": "0.2",
+  "manifest_version": 2,
+  "app": {
+    "urls": [
+      "http://kapjep.github.io/RIP/"
+    ],
+    "launch": {
+      "web_url": "http://kapjep.github.io/RIP/"
+    }
+  },
+  "icons": {
+    "128": "icon/firefox-os/icon-128.png"
+  }
+}
