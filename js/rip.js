@@ -43,13 +43,13 @@ function anazitisi(){
 					var actor = get_actor(id);
 
 					if (actor.deathday == null) {
-						var new_span = $("<span class='badge glyphicon glyphicon-heart'>&nbsp;</span>");
+						var new_span = $("<span class='badge bdg-width glyphicon glyphicon glyphicon-question-sign'> N/A</span>");
 					}
 					else if (actor.deathday.indexOf("-") >= 0) {
-						var new_span = $("<span class='badge'>R.I.P.</span>");
+						var new_span = $("<span class='badge bdg-width glyphicon glyphicon-ban-circle'> R.I.P.</span>");
 					}
 					else {
-						var new_span = $("<span class='badge glyphicon glyphicon-heart'>&nbsp;</span>");
+						var new_span = $("<span class='badge bdg-width glyphicon glyphicon-heart'> ALIVE</span>");
 					}
 
 					var new_list_item = $("<li class='list-group-item'></li>");
