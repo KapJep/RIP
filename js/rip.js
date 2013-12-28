@@ -36,6 +36,14 @@ function anazitisi(){
 			console.log(len);
 			// to sosto einai r.total_results, alla prepei na vroume pos paei sto next page
 			if (len>0){
+				//Random Actor
+				var rnd_i;
+				rnd_i = Math.floor((Math.random()*len)+1);
+				var rnd_id = actor_array[rnd_i].id;
+				var rnd_actor = get_actor(rnd_id);
+				document.getElementById("main-actor").innerHTML = rnd_actor.name;
+				// End Random Actor
+
 				var i;
 				for (i=0;i<len;i++){
 

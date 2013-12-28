@@ -1,61 +1,78 @@
-﻿<html>
+﻿<!DOCTYPE html> 
+<html>
 	<head>
 		<title>R.I.P. Actors 0.2</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="google-site-verification" content="DmrgvR0eTRbBG6VGSmbEPcF6Qz55DRvWN7MtqjcwQWw" />
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<style>
-			body { padding-top: 70px; }
-			.bdg-width { width:80px; //set width for badges showing RIP - Alive - N/A }
-		</style>
+		<!-- jQuery + jQuery Mobile + jQuery Mobile CSS from CDN (not stored localy) & Removed Bootstrap CSS -->
+		<script src="http://code.jquery.com/jquery-2.0.3.min.js" type="text/javascript"></script>
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
+		<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js" type="text/javascript"></script>		
+		<link href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.css" rel="stylesheet" />
+
+		<link href="css/app.css" rel="stylesheet"> <!-- Removed style element. New CSS file. All the style mods will go in there.  -->
 	</head>
 <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand glyphicon glyphicon-refresh" href="javascript:location.reload();"> R.I.P Actors</a>
-        </div>
-      </div>
-    </div>
+<div data-role="page">
 
-    <div class="container">
+	<!-- header -->
+	<div data-role="header" data-theme="b">
+		<h1>R.I.P Actors</h1>
+		<!-- -->
+		<a class="ui-btn ui-btn-right ui-icon-refresh ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" href="javascript:location.reload();"></a>
+	</div>
+	<!-- /header -->
 
-	    <div align="center">
+	
+	<!-- content -->
+	<div data-role="content">	
+			<!--
 			<span data-picture align="center">
 				<span data-src="images/small.png"></span>
 				<span data-src="images/medium.png" data-media="(min-width: 640px)"></span>
 				<span data-src="images/big.png" data-media="(min-width: 1024px)"></span>
 				<span data-src="images/verybig.png" data-media="(min-width: 1280px)"></span>
 				<span data-src="images/large.png" data-media="(min-width: 1920px)"></span>
-				<span data-src="images/extralarge.png" data-media="(min-width: 3840px)"></span>
+				<span data-src="images/extralarge.png" data-media="(min-width: 3840px)"></span>-->
 
 				<!-- Fallback content for non-JS browsers. Same img src as the initial, unqualified source element. -->
-				<noscript>
-					<img src="images/small.png">
-				</noscript>
-			</span>
+				<!-- <noscript><img src="images/small.png"></noscript>
+			</span>-->
 
-			<h3 id="heading" class="translatable" data-transl="Find out whether your favourite actor is still with us."></h3> 
+			<button id="btnS" type="button" class="ui-shadow ui-btn ui-icon-search ui-btn-icon-notext ui-btn-inline translatable"></button>
+			<input  id='actor' type="text"   class="translatable" placeholder="" data-transl="Name" data-clear-btn="true">
+		
+		<div align="center">
+			<h4 id="heading" class="translatable" data-transl="Find out whether your favourite actor is still with us."></h4> 
+		</div>
+
+		<div id="main-actor"> Τυχαίος Ηθοποιός
+
+
 		</div>
 
 
-		<div class="input-group input-group-lg">
-			<input id='actor' type="text" class="form-control translatable" placeholder="" data-transl="Name">
-			<span class="input-group-btn">
-				<button id="btnS" type="button" class="btn btn-default translatable" data-transl="Search">
-				</button>
-			</span>
-		</div>
 
+
+
+	</div>
+	<!-- /content -->
+
+	
+	<!-- footer -->
+	<div data-role="footer">
+		
 		<ul class="list-group">
 			<!-- rip magic -->
 		</ul>
 
-	</div> <!-- container -->
+	</div>
+	<!-- /footer -->
 
-	<script src="js/jquery-2.0.3.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+</div>
+<!-- /page -->
+
 	<script src="js/picturefill.js"></script>
 	<script src="js/rip_transl.js"></script>
 	<script src="js/rip.js"></script>
