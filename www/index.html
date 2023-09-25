@@ -1,27 +1,40 @@
 ﻿<html>
-	<head>
-		<title>R.I.P. Actors 0.2</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<meta name="google-site-verification" content="DmrgvR0eTRbBG6VGSmbEPcF6Qz55DRvWN7MtqjcwQWw" />
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<style>
-			body { padding-top: 70px; }
-			.bdg-width { width:80px; /*set width for badges showing RIP - Alive - N/A */ }
-		</style>
-	</head>
+
+<head>
+	<title>R.I.P. Actors 0.2</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="google-site-verification" content="DmrgvR0eTRbBG6VGSmbEPcF6Qz55DRvWN7MtqjcwQWw" />
+	<link href="css/rip.css" rel="stylesheet">
+	<style>
+		.bdg-width {
+			min-width: 80px;
+			/*set width for badges showing RIP - Alive - N/A */
+		}
+	</style>
+
+	<!-- Bootstrap 5.3.2 CDN -->
+	<link async href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"></script>
+	<link async rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+
 <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand glyphicon glyphicon-refresh" href="javascript:location.reload();"> R.I.P Actors</a>
-        </div>
-      </div>
-    </div>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand bi bi-arrow-clockwise" href="javascript:location.reload();"> R.I.P
+					Actors</a>
+			</div>
+		</div>
+	</div>
 
-    <div class="container">
+	<div class="container">
 
-	    <div align="center">
+		<div align="center">
 			<span data-picture align="center">
 				<span data-src="images/small.png"></span>
 				<span data-src="images/medium.png" data-media="(min-width: 640px)"></span>
@@ -36,14 +49,15 @@
 				</noscript>
 			</span>
 
-			<h3 id="heading" class="translatable" data-transl="Find out whether your favourite actor is still with us."></h3> 
+			<h3 id="heading" class="translatable" data-transl="Find out whether your favourite actor is still with us.">
+			</h3>
 		</div>
 
 
 		<div class="input-group input-group-lg">
 			<input id='actor' type="text" class="form-control translatable" placeholder="" data-transl="Name">
 			<span class="input-group-btn">
-				<button id="btnS" type="button" class="btn btn-default translatable" data-transl="Search">
+				<button id="btnS" type="button" class="btn btn-dark btn-lg translatable" data-transl="Search">Search
 				</button>
 			</span>
 		</div>
@@ -55,10 +69,9 @@
 	</div> <!-- container -->
 
 	<script src="js/jquery-3.7.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
 	<script src="js/picturefill.js"></script>
 	<script src="js/rip_transl.js"></script>
 	<script src="js/rip.js"></script>
-
 </body>
+
 </html>

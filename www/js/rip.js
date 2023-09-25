@@ -39,98 +39,70 @@ function anazitisi() {
 }
 
 // Θα προσπαθήσω να γράψω την performSearch με promises αντι για callbacks
-function performSearch(actor, $list_group, $btnS) {
+// τελικά χρησιμοποίησα το async/await γιατί είναι πιο εύκολο και κατανοητό
+async function performSearch(actor, $list_group, $btnS) {
 	const url = `https://api.themoviedb.org/3/search/person?api_key=d44e0ac5ceac0c812a5ffa8c7cc72ef0&query=${actor}`;
 
-	fetch(url)
-		.then(response => response.json())
-		.then(data => {
-			const actor_array = data.results;
-			const len = actor_array.length;
+	try {
+		const response = await fetch(url);
+		const data = await response.json();
+		const actor_array = data.results;
+		const len = actor_array.length;
 
-			if (len > 0) {
-				for (let i = 0; i < len; i++) {
-					const id = actor_array[i].id;
-					const actor = get_actor(id);
+		if (len > 0) {
+			const promises = actor_array.map(async (actorInfo) => {
+				id = actorInfo.id;
+				const actor = await get_actor(id);
+				return actor;
+			});
 
-					let new_span;
-					if (actor.deathday == null) {
-						new_span = $("<span class='badge bdg-width glyphicon glyphicon glyphicon-question-sign'> N/A</span>");
-					}
-					else if (actor.deathday.indexOf("-") >= 0) {
-						new_span = $("<span class='badge bdg-width glyphicon glyphicon-ban-circle'> R.I.P.</span>");
-					}
-					else {
-						new_span = $("<span class='badge bdg-width glyphicon glyphicon-heart'> ALIVE</span>");
-					}
-					const new_list_item = $("<li class='list-group-item'></li>");
-					const new_actor_name_link = $(`<a a target = _blank href = 'http://www.themoviedb.org/person/${id}' > ${actor.name}</a> `);
+			const actors = await Promise.all(promises);
 
-					new_list_item.append(new_span, new_actor_name_link);
-					$list_group.append(new_list_item);
+			actors.forEach(actor => {
+				let new_span;
+				if (!actor.deathday || actor.deathday === "undefined") {
+					new_span = $("<span class='badge bdg-width glyphicon bi bi-question-circle'> N/A</span>");
+				} else if (actor.deathday.indexOf("-") >= 0) {
+					new_span = $("<span class='badge bdg-width glyphicon bi bi-slash-circle-fill bg-dark'> R.I.P.</span>");
+				} else {
+					new_span = $("<span class='badge bdg-width glyphicon bi bi-heart-fill bg-success'> ALIVE</span>");
 				}
-			}
-		})
-		.catch(error => console.error(error))
-		.finally(() => {
-			$list_group.slideDown("slow");
-			$btnS.attr("disabled", false);
-			$btnS.text(t("Αναζήτηση"));
-		});
-};
 
-// Διόρθωσα των κώδικα για να χρησιμοποιεί cached elements και να μην κάνει κάθε φορά query στο DOM
-// function performSearch(actor, $list_group, $btnS) {
-// 	const xmlhttp = new XMLHttpRequest();
-// 	xmlhttp.open("GET", "https://api.themoviedb.org/3/search/person?api_key=d44e0ac5ceac0c812a5ffa8c7cc72ef0&query=" + actor, true);
+				const new_list_item = $("<li class='list-group-item'></li>");
+				const new_actor_name_link = $(`<a class="text-start" href = 'http://www.themoviedb.org/person/${actor.id}' target="_blank"> ${actor.name}</a> `);
 
-// 	xmlhttp.onreadystatechange = function () {
-// 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-// 			const r = JSON.parse(xmlhttp.responseText);
-// 			const actor_array = r.results;
-// 			const len = actor_array.length;
-
-// 			// to sosto einai r.total_results, alla prepei na vroume pos paei sto next page
-// 			if (len > 0) {
-// 				for (let i = 0; i < len; i++) {
-// 					var id = actor_array[i].id;
-// 					var actor = get_actor(id);
-
-// 					let new_span;
-// 					if (actor.deathday == null) {
-// 						new_span = $("<span class='badge bdg-width glyphicon glyphicon glyphicon-question-sign'> N/A</span>");
-// 					}
-// 					else if (actor.deathday.indexOf("-") >= 0) {
-// 						new_span = $("<span class='badge bdg-width glyphicon glyphicon-ban-circle'> R.I.P.</span>");
-// 					}
-// 					else {
-// 						new_span = $("<span class='badge bdg-width glyphicon glyphicon-heart'> ALIVE</span>");
-// 					}
-
-// 					const new_list_item = $("<li class='list-group-item'></li>");
-// 					const new_actor_name_link = $(`<a a target = _blank href = 'http://www.themoviedb.org/person/${id}' > ${ actor.name }</a> `);
-
-// 					new_list_item.appendTo($list_group).append(new_span, new_actor_name_link);
-// 				}
-
-// 				$list_group.slideDown("slow");
-// 				$btnS.attr("disabled", false);
-// 				$btnS.text(t("Search"));
-// 			}
-// 		}
-// 	};
-// 	xmlhttp.send();
-// }
-
-function get_actor(id) {
-	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.open("GET", "https://api.themoviedb.org/3/person/" + id + "?api_key=d44e0ac5ceac0c812a5ffa8c7cc72ef0", false);
-	xmlhttp.send();
-	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-		r = eval("(" + xmlhttp.responseText + ")");
-		return r;
+				new_list_item.append(new_span, new_actor_name_link);
+				$list_group.append(new_list_item);
+			});
+		}
+	} catch (error) {
+		console.error(error);
+	} finally {
+		$list_group.slideDown("slow");
+		$btnS.attr("disabled", false);
+		$btnS.text(t("Αναζήτηση"));
 	}
 }
+
+// Θα προσπαθήσω να γράψω την get_actor με async/await αντι για promises
+async function get_actor(id) {
+	const url = `https://api.themoviedb.org/3/person/${id}?api_key=d44e0ac5ceac0c812a5ffa8c7cc72ef0`;
+
+	try {
+		const response = await fetch(url);
+		const data = await response.json();
+		const actor = {
+			id: data.id,
+			name: data.name,
+			deathday: data.deathday ? data.deathday : "N/A"
+		};
+		return actor;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+}
+
 
 $("#actor").keypress(function (e) {
 	if (e.keyCode == 13) {
