@@ -1,3 +1,5 @@
-
 .vscode/launch.json
 jsconfig.json
+
+# the app configuration file
+/js/the_config.js
