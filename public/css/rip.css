@@ -1,0 +1,16 @@
+.skeleton-image {
+    background-color: hsl(200, 20, 75%);
+    border-radius: 5px;
+    animation: skeleton-animation 1s linear infinite alternate;
+    aspect-ratio: 1;
+}
+
+@keyframes skeleton-animation {
+    0% {
+        background-color: hsl(200, 20%, 75%);
+    }
+
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
+}

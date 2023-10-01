@@ -1,7 +1,6 @@
 ﻿// Api key file
 import { apiKey } from "./the_config.js";
 
-
 function anazitisi() {
 	// Let's cache elements we access frequently for performance
 	var $btnS = $("#btnS");
@@ -15,18 +14,17 @@ function anazitisi() {
 	// Empty the list
 	$list_group.hide().empty();
 
-	//get the search query and empty the field
+	//get the search query, sanitize the input and empty the field
 	const actor = $actor.val();
 	$actor.val("");
 
 	performSearch(actor, $list_group, $btnS);
 
-
 	//enable search button again, wait for 10 sec and change the text
 	setTimeout(function () {
 		document.getElementById("btnS").disabled = false;
 		document.getElementById("btnS").innerHTML = "Search";
-	}, 10000);
+	}, 5000);
 }
 
 // Θα προσπαθήσω να γράψω την performSearch με promises αντι για callbacks
@@ -50,48 +48,61 @@ async function performSearch(actor, $list_group, $btnS) {
 		'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">' +
 		'<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM6.75 9.25a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" clip-rule="evenodd" /></svg>';
 
-
 	try {
 		const response = await fetch(url);
 		const data = await response.json();
 		const actor_array = data.results;
 		const len = actor_array.length;
 
-		if (len > 0) {
-			const promises = actor_array.map(async (actorInfo) => {
-				const id = actorInfo.id;
-				const actor = await get_actor(id);
-				return actor;
-			});
-
-
-			const actors = await Promise.all(promises);
-
-			actors.forEach(actor => {
-				let new_span;
-				if (!actor.deathday || actor.deathday === "undefined") {
-					new_span = $("<span class='text-center'>" + icon_question + " N/A</span>");
-				} else if (actor.deathday.indexOf("-") >= 0) {
-					new_span = $("<span class='text-center'>" + icon_rip + "R.I.P.</span>");
-				} else {
-					new_span = $("<span class='text-center'>" + icon_heart + " ALIVE</span>");
-				}
-
-				const new_list_item = $("<li class='w-48 flex flex-col border rounded items-center list-group-item'></li>");
-				const new_actor_name_link = $(`<a class="text-center my-2" href = 'http://www.themoviedb.org/person/${actor.id}' target="_blank"> ${actor.name}</a> `);
-				const new_actor_image = $(`<img class="rounded w-36 my-2" src="${actor.image}" alt="${actor.name}">`);
-				const new_actor_birthday = $(`<span class='text-center'>Birthday: ${actor.birthday}</span>`);
-				const new_actor_deathday = $(`<span class='text-center'>Deathday: ${actor.deathday}</span>`);
-
-				new_list_item.append(new_actor_name_link, new_actor_image, new_actor_birthday, new_actor_deathday, new_span);
-				$list_group.append(new_list_item);
-			});
+		/* if no results found */
+		if (len === 0) {
+			$list_group.append("<li class='list-group-item'>No results found</li>");
+			return; // stop execution
 		}
+
+		/* if results found */
+		const promises = actor_array.map(async (actorInfo) => {
+			const id = actorInfo.id;
+			const actor = await get_actor(id);
+			return actor; // return the actor object
+		});
+
+		/* wait for all promises to resolve */
+		const actors = await Promise.all(promises);
+
+		/* create the actor cards */
+		actors.forEach(actor => {
+			let new_span;
+			if (!actor.deathday || actor.deathday === "undefined") {
+				new_span = $("<span class='text-center'>" + icon_question + " N/A</span>");
+			} else if (actor.deathday.indexOf("-") >= 0) {
+				new_span = $("<span class='text-center'>" + icon_rip + "R.I.P.</span>");
+			} else {
+				new_span = $("<span class='text-center'>" + icon_heart + " ALIVE</span>");
+			}
+
+			const new_actor = `
+			<div class='w-56 flex flex-col border rounded items-center shadow-lg transition duration-150 hover:shadow-sm hover:bg-slate-200 hover:rounded-none'>
+				<a class='p-4 inline-flex flex-col' href='http://www.themoviedb.org/person/${actor.id}' target='_blank'>
+					<span class='text-center'>${actor.name}</span>
+					<img class="rounded w-40 my-2 mx-auto shadow  aspect-square object-cover min-w-full skeleton-image" src="${actor.image}" alt="${actor.name}">
+					<span class='text-center'>Birthday: ${actor.birthday}</span>
+					<span class='text-center'>Deathday: ${actor.deathday}</span>
+					${new_span.prop('outerHTML')}
+				</a>
+			</div>
+			`;
+
+			$list_group.append(new_actor);
+		});
+
 	} catch (error) {
+		$list_group.append("<li class='list-group-item'>Something went wrong.</li>");
 		console.error(error);
 	} finally {
+		/* show the list */
 		$list_group.slideDown("slow");
-		$btnS.attr("disabled", false);
+		$btnS.attr("disabled", false); // enable search button
 		$btnS.text("Search");
 	}
 }
