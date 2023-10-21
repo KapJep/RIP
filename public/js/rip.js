@@ -2,38 +2,107 @@
 import { apiKey } from "./the_config.js";
 
 function anazitisi() {
-	// Let's cache elements we access frequently for performance
-	var $btnS = $("#btnS");
-	var $actor = $("#actor");
-	var $list_group = $(".list-group");
+	// Cache frequently accessed elements
+	const searchButton = $("#btnS");
+	const actorInput = $("#actor");
+	const listGroup = $(".list-group");
 
 	// Disable search button and change the text
-	$btnS.attr("disabled", true);
-	$btnS.text("Searching...");
+	searchButton.prop("disabled", true).text("Searching...");
 
 	// Empty the list
-	$list_group.hide().empty();
+	listGroup.hide().empty();
 
-	//get the search query, sanitize the input and empty the field
-	const actor = $actor.val();
-	$actor.val("");
+	// Get the search query, sanitize the input and empty the field
+	const actor = actorInput.val().trim();
+	actorInput.val("");
 
-	performSearch(actor, $list_group, $btnS);
-
-	//enable search button again, wait for 10 sec and change the text
-	setTimeout(function () {
-		document.getElementById("btnS").disabled = false;
-		document.getElementById("btnS").innerHTML = "Search";
-	}, 5000);
+	// Perform the search and handle the results
+	performSearch(actor, listGroup, searchButton)
+		.then(() => {
+			// Enable search button again after a delay
+			setTimeout(() => {
+				searchButton.prop("disabled", false).text("Search");
+			}, 5000);
+		})
+		.catch((error) => {
+			// Handle errors
+			console.error(error);
+			searchButton.prop("disabled", false).text("Search");
+		});
 }
 
-// Θα προσπαθήσω να γράψω την performSearch με promises αντι για callbacks
-// τελικά χρησιμοποίησα το async/await γιατί είναι πιο εύκολο και κατανοητό
-async function performSearch(actor, $list_group, $btnS) {
-	/* declare api url */
-	const url = `https://api.themoviedb.org/3/search/person?api_key=${apiKey}&query=${actor}`;
-	console.log(url);
-	/* declare icons */
+// Function to perform the search
+async function performSearch(actor, listGroup, searchButton, page = 1, pageSize = 10) {
+	// Declare the API URL
+	const apiUrl = `https://api.themoviedb.org/3/search/person?api_key=${apiKey}&query=${actor}&page=${page}`;
+
+	try {
+		// Fetch the search results from the API
+		const data = await fetchJson(apiUrl);
+
+		// Get the actor data for each search result
+		const actors = await getActors(data.results.slice(0, pageSize));
+
+		// Create an actor card for each actor
+		const actorCards = actors.map(createActorCard);
+
+		// Append the actor cards to the list group and show it
+		appendActorCards(actorCards, listGroup);
+		listGroup.show();
+
+		// Check if there are more pages and add a "Load More" button
+		if (data.total_pages > page) {
+			addLoadMoreButton(actor, listGroup, searchButton, page + 1, pageSize);
+		}
+
+	} catch (error) {
+		// Handle errors
+		console.error(error);
+	} finally {
+		// Enable search button again
+		searchButton.prop("disabled", false).text("Search");
+	}
+}
+
+// Function to fetch JSON data from a URL
+async function fetchJson(url) {
+	const response = await fetch(url);
+	return response.json();
+}
+
+
+// Function to get the actor data for each search result
+async function getActors(actorArray) {
+	// Map each search result to a Promise that resolves to the actor data
+	const promises = actorArray.map(async (actorInfo) => {
+		const id = actorInfo.id;
+		const actor = await getActor(id);
+		return actor;
+	});
+	// Wait for all Promises to resolve and return the actor data
+	return Promise.all(promises);
+}
+
+// Function to get the actor data for a single actor ID
+async function getActor(actorId) {
+	// Declare the API URL
+	const apiUrl = `https://api.themoviedb.org/3/person/${actorId}?api_key=${apiKey}`;
+
+	// Fetch the actor data from the API and return the relevant properties
+	const data = await fetchJson(apiUrl);
+	return {
+		id: data.id,
+		name: data.name,
+		deathday: data.deathday ? data.deathday : "N/A",
+		birthday: data.birthday ? data.birthday : "N/A",
+		image: data.profile_path ? "https://image.tmdb.org/t/p/w185" + data.profile_path : "https://via.placeholder.com/185x278?text=No+Image",
+	};
+}
+
+// Function to create an actor card HTML string
+function createActorCard(actor) {
+	// Declare icons
 	const icon_heart = '<svg class="inline-block w-6" ' +
 		'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">' +
 		'<path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 ' +
@@ -48,87 +117,57 @@ async function performSearch(actor, $list_group, $btnS) {
 		'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">' +
 		'<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM6.75 9.25a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" clip-rule="evenodd" /></svg>';
 
-	try {
-		const response = await fetch(url);
-		const data = await response.json();
-		const actor_array = data.results;
-		const len = actor_array.length;
+	// Create the actor card HTML string
+	let new_span;
+	if (!actor.deathday || actor.deathday === "undefined") {
+		new_span = $("<span class='text-center'>" + icon_question + " N/A</span>");
+	} else if (actor.deathday.indexOf("-") >= 0) {
+		new_span = $("<span class='text-center'>" + icon_rip + "R.I.P.</span>");
+	} else {
+		new_span = $("<span class='text-center'>" + icon_heart + " ALIVE</span>");
+	}
 
-		/* if no results found */
-		if (len === 0) {
-			$list_group.append("<li class='list-group-item'>No results found</li>");
-			return; // stop execution
-		}
+	const new_actor = `
+		<div class='w-56 flex flex-col border rounded items-center shadow-lg transition duration-150 hover:shadow-sm hover:bg-slate-200 hover:rounded-none'>
+			<a class='p-4 inline-flex flex-col' href='http://www.themoviedb.org/person/${actor.id}' target='_blank'>
+				<span class='text-center'>${actor.name}</span>
+				<img class="rounded w-40 my-2 mx-auto shadow  aspect-square object-cover min-w-full skeleton-image" src="${actor.image}" alt="${actor.name}">
+				<span class='text-center'>Birthday: ${actor.birthday}</span>
+				<span class='text-center'>Deathday: ${actor.deathday}</span>
+				${new_span.prop('outerHTML')}
+			</a>
+		</div>
+	`;
+	return new_actor;
+}
 
-		/* if results found */
-		const promises = actor_array.map(async (actorInfo) => {
-			const id = actorInfo.id;
-			const actor = await get_actor(id);
-			return actor; // return the actor object
-		});
-
-		/* wait for all promises to resolve */
-		const actors = await Promise.all(promises);
-
-		/* create the actor cards */
-		actors.forEach(actor => {
-			let new_span;
-			if (!actor.deathday || actor.deathday === "undefined") {
-				new_span = $("<span class='text-center'>" + icon_question + " N/A</span>");
-			} else if (actor.deathday.indexOf("-") >= 0) {
-				new_span = $("<span class='text-center'>" + icon_rip + "R.I.P.</span>");
-			} else {
-				new_span = $("<span class='text-center'>" + icon_heart + " ALIVE</span>");
-			}
-
-			const new_actor = `
-			<div class='w-56 flex flex-col border rounded items-center shadow-lg transition duration-150 hover:shadow-sm hover:bg-slate-200 hover:rounded-none'>
-				<a class='p-4 inline-flex flex-col' href='http://www.themoviedb.org/person/${actor.id}' target='_blank'>
-					<span class='text-center'>${actor.name}</span>
-					<img class="rounded w-40 my-2 mx-auto shadow  aspect-square object-cover min-w-full skeleton-image" src="${actor.image}" alt="${actor.name}">
-					<span class='text-center'>Birthday: ${actor.birthday}</span>
-					<span class='text-center'>Deathday: ${actor.deathday}</span>
-					${new_span.prop('outerHTML')}
-				</a>
-			</div>
-			`;
-
-			$list_group.append(new_actor);
-		});
-
-	} catch (error) {
-		$list_group.append("<li class='list-group-item'>Something went wrong.</li>");
-		console.error(error);
-	} finally {
-		/* show the list */
-		$list_group.slideDown("slow");
-		$btnS.attr("disabled", false); // enable search button
-		$btnS.text("Search");
+// Function to append the actor cards to the list group
+function appendActorCards(actorCards, listGroup) {
+	if (actorCards.length === 0) {
+		listGroup.append("<div class='list-group-item'>No results found</div>");
+	} else {
+		listGroup.append(actorCards.join(""));
 	}
 }
 
-// Θα προσπαθήσω να γράψω την get_actor με async/await αντι για promises
-async function get_actor(id) {
-	const url = `https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}`;
-
-	try {
-		const response = await fetch(url);
-		const data = await response.json();
-		const actor = {
-			id: data.id,
-			name: data.name,
-			deathday: data.deathday ? data.deathday : "N/A",
-			birthday: data.birthday ? data.birthday : "N/A",
-			image: data.profile_path ? "https://image.tmdb.org/t/p/w185" + data.profile_path : "https://via.placeholder.com/185x278?text=No+Image",
-
-		};
-		return actor;
-	} catch (error) {
-		console.error(error);
-		throw error;
-	}
+// Function to add a "Load More" button to the list group
+function addLoadMoreButton(actor, listGroup, searchButton, nextPage) {
+	const loadMoreButton = $("<button>")
+		.addClass("bg-slate-900 hover:bg-slate-400 text-white py-3 px-8 rounded my-2 mx-auto")
+		.text("Load More")
+		.click(() => {
+			loadMoreButton.prop("disabled", true).text("Loading...");
+			performSearch(actor, listGroup, searchButton, nextPage)
+				.then(() => {
+					loadMoreButton.remove();
+				})
+				.catch((error) => {
+					console.error(error);
+					loadMoreButton.prop("disabled", false).text("Load More");
+				});
+		});
+	listGroup.append($("<div>").addClass("contents").append(loadMoreButton));
 }
-
 
 $("#actor").keypress(function (e) {
 	if (e.keyCode == 13) {
