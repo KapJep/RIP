@@ -5,7 +5,7 @@
   "main": "public/index.html",
   "scripts": {
     "start": "npm run build && live-server public",
-    "build": "tailwindcss build src/css/input.css -o public/css/style.css --watch"
+    "build": "tailwindcss build -i src/css/input.css -o public/css/style.css --watch"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,8 @@
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.6",
     "@tailwindcss/typography": "^0.5.10",
+    "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.4",
     "tailwindcss": "^3.3.3"
   }
 }

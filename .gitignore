@@ -1,10 +1,7 @@
 # ignored folders
+.vscode/
 node_modules/
 src/
-
-# ignored files
-.vscode/launch.json
-jsconfig.json
 
 # ignore the app configuration file
 public/js/the_config.js
